@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#e9e9e9"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:background="#026eb9">
+
+            <Button
+                android:id="@+id/popwindowbt"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@mipmap/btn5"
+                android:gravity="center_vertical"
+                android:text="" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="主页"
+                android:textColor="#fff"
+                android:textSize="20dp" />
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="@mipmap/indextitle1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/qujiantv"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_weight="0.3"
+                android:drawableTop="@mipmap/index1"
+                android:gravity="center_horizontal"
+                android:text="取件" />
+
+            <TextView
+                android:id="@+id/paijiantv"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_weight="0.3"
+                android:drawableTop="@mipmap/index2"
+                android:gravity="center_horizontal"
+                android:text="派件" />
+
+            <TextView
+                android:id="@+id/qianshoutv"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_weight="0.3"
+                android:drawableTop="@mipmap/index3"
+                android:gravity="center_horizontal"
+                android:text="送达" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/zhongzhuantv"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_weight="0.3"
+                android:drawableTop="@mipmap/index4"
+                android:gravity="center_horizontal"
+                android:text="中转" />
+
+            <TextView
+                android:id="@+id/gongdanchaxuntv"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_weight="0.3"
+                android:drawableTop="@mipmap/index5"
+                android:gravity="center_horizontal"
+                android:text="工单查询" />
+
+            <TextView
+                android:id="@+id/yichangchulitv"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_weight="0.3"
+                android:drawableTop="@mipmap/index6"
+                android:gravity="center_horizontal"
+                android:text="异常处理" />
+        </LinearLayout>
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:background="#e9e9e9" />
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:background="#fff" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:background="#e9e9e9">
+
+            <TextView
+                android:id="@+id/qj_tv_fa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:text="取件数量：..."
+                android:textColor="#000"
+                android:textSize="15dp" />
+            <TextView
+                android:id="@+id/zz_tv_fa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="40dp"
+                android:text="取件数量：..."
+                android:textColor="#000"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/pj_tv_fa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="65dp"
+                android:text="派送数量：..."
+                android:textColor="#000"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/frash_tv_fa"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="150dp"
+                android:layout_marginTop="15dp"
+                android:background="@mipmap/btn3"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="刷新"
+                android:textColor="#fff"
+                android:textSize="15dp" />
+            <TextView
+                android:id="@+id/mingxi_tv_fa"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:background="@mipmap/btn3"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="明細"
+                android:textColor="#fff"
+                android:textSize="15dp"
+                android:layout_alignBottom="@+id/pj_tv_fa"
+                android:layout_alignLeft="@+id/frash_tv_fa"
+                android:layout_alignStart="@+id/frash_tv_fa" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

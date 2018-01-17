@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:background="#1696d3">
+
+        <TextView
+            android:id="@+id/backtv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/btn2"
+            android:layout_marginLeft="20dp"
+            android:textColor="#fff" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="异常单"
+            android:textColor="#fff"
+            android:textSize="20dp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:background="#fff">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:text="快递单号"
+            android:textSize="18dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="#000"
+            android:id="@+id/textView2" />
+        <EditText
+            android:id="@+id/danhaotv_yca"
+            android:layout_width="match_parent"
+            android:layout_marginRight="80dp"
+             android:background="#00000000"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textSize="18dp"
+            android:hint="请扫描"
+            android:textColor="#000"
+            android:layout_marginLeft="89dp" />
+        <TextView
+            android:id="@+id/scanner_yca"
+            android:layout_width="70dp"
+            android:background="@mipmap/btn"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_height="30dp"/>
+    </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#e8e8e8"/>
+
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="108dp"
+        android:layout_height="400dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:layout_marginLeft="10dp"
+            android:textSize="18dp"
+            android:layout_marginTop="10dp"
+            android:text="原因:"/>
+    </LinearLayout>
+    <EditText
+        android:id="@+id/yuanyintv_yca"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginRight="10dp"
+        android:gravity="start"
+        android:layout_marginTop="118dp"
+        android:background="@drawable/circle"
+        android:layout_marginLeft="55dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:background="#e8e8e8"/>
+    <TextView
+        android:id="@+id/confirm_tv_yca"
+        android:layout_width="match_parent"
+        android:layout_marginTop="328dp"
+        android:text="确定"
+        android:textColor="#fff"
+        android:textSize="20dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="@mipmap/btn4"
+        android:layout_height="50dp"/>
+</RelativeLayout>

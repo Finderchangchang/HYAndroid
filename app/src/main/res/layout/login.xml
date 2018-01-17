@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="@mipmap/background">
+
+    <TextView
+        android:id="@+id/tubiao"
+        android:layout_width="200dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="48dp"
+        android:background="@mipmap/logo"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="250dp"
+        android:background="@drawable/logincircle"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_height="35dp"
+            android:layout_marginLeft="5dp"
+            android:background="@mipmap/user" />
+        <View
+            android:layout_width="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="#fff"
+            android:layout_height="match_parent" />
+        <EditText
+            android:id="@+id/tel_et"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:textColor="#fff"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/textkuang" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="315dp"
+        android:background="@drawable/logincircle"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:background="@mipmap/password" />
+        <View
+            android:layout_width="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="#fff"
+            android:layout_height="match_parent" />
+
+        <EditText
+            android:id="@+id/pwd_et"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginLeft="5dp"
+            android:password="true"
+            android:background="@drawable/textkuang"
+            android:textColor="#fff" />
+    </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/logintv"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/bantouming"
+            android:layout_marginLeft="40dp"
+            android:text="登陆"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:textColor="#4cb6ac"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="385dp"
+            android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
