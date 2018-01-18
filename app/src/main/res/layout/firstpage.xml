@@ -76,7 +76,7 @@
                 android:layout_weight="0.3"
                 android:drawableTop="@mipmap/index3"
                 android:gravity="center_horizontal"
-                android:text="送达" />
+                android:text="签收" />
         </LinearLayout>
 
         <LinearLayout

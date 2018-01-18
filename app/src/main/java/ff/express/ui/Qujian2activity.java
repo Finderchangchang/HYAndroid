@@ -242,7 +242,8 @@ public class Qujian2activity extends BaseActivity implements View.OnClickListene
      */
     private void scanning() {
 
-        Intent intent = new Intent(this, CaptureActivity.class);        //CaptureActivity是扫描的Activity类
+        Intent intent = new Intent(this, CaptureActivity.class);//CaptureActivity是扫描的Activity类
+        intent.putExtra("is_one",false);
         startActivityForResult(intent, 0);                            //当前扫描完条码或二维码后,会回调当前类的onActivityResult方法,
         takePhoto();
     }

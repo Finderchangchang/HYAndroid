@@ -49,6 +49,7 @@ public class CaptureActivity extends Activity implements Callback {
     private static final float BEEP_VOLUME = 0.10f;
     private boolean vibrate;
     private Button cancelScanButton;
+    boolean is_one = true;//默认只扫描一个
 
     /**
      * Called when the activity is first created.
@@ -57,6 +58,7 @@ public class CaptureActivity extends Activity implements Callback {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.zxing_camera);
+        is_one = getIntent().getBooleanExtra("is_one", true);
         //ViewUtil.addTopView(getApplicationContext(), this, R.string.scan_card);
         CameraManager.init(getApplication());
         viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
@@ -153,28 +155,39 @@ public class CaptureActivity extends Activity implements Callback {
         //FIXME
         if (resultS.equals("")) {
             Toast.makeText(CaptureActivity.this, "Scan failed!", Toast.LENGTH_SHORT).show();
+            CaptureActivity.this.finish();
         } else {
-            if (handler != null) {
-                handler.quitSynchronously();
-                handler = null;
-            }
-            hasSurface = true;
-            initCamera();
-            boolean equ = false;
-            if (resultString.contains(";")) {
-                for (int i = 0; i < resultString.split(";").length; i++) {
-                    if (resultS.equals(resultString.split(";")[i])) {
-                        equ = true;
-                        break;
+            if (is_one) {
+                playBeepSoundAndVibrate();
+                Intent resultIntent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putString("result", resultS);//扫描结果
+                resultIntent.putExtras(bundle);
+                CaptureActivity.this.setResult(RESULT_OK, resultIntent);
+                CaptureActivity.this.finish();
+            } else {
+                if (handler != null) {
+                    handler.quitSynchronously();
+                    handler = null;
+                }
+                hasSurface = true;
+                initCamera();
+                boolean equ = false;
+                if (resultString.contains(";")) {
+                    for (int i = 0; i < resultString.split(";").length; i++) {
+                        if (resultS.equals(resultString.split(";")[i])) {
+                            equ = true;
+                            break;
+                        }
                     }
                 }
-            }
-            if (!equ) {//没有相同的数
-                resultString += resultS + ";";
-                toast("扫描成功：" + resultS);
+                if (!equ) {//没有相同的数
+                    resultString += resultS + ";";
+                    playBeepSoundAndVibrate();
+                    toast("扫描成功：" + resultS);
+                }
             }
         }
-//		CaptureActivity.this.finish();
     }
 
     private void initCamera(SurfaceHolder surfaceHolder) {

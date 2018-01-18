@@ -50,7 +50,7 @@ public class ZhongzhuanActivity extends BaseActivity implements View.OnClickList
     DanhaoAdapter adapter;
     static List<String> list;
     Map<String, String> map;
-    String danhaostr="";
+    String danhaostr = "";
     Handler h = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -209,6 +209,7 @@ public class ZhongzhuanActivity extends BaseActivity implements View.OnClickList
      */
     private void scanning() {
         Intent intent = new Intent(this, CaptureActivity.class);        //CaptureActivity是扫描的Activity类
+        intent.putExtra("is_one", false);
         startActivityForResult(intent, 0);                            //当前扫描完条码或二维码后,会回调当前类的onActivityResult方法,
         takePhoto();
     }
