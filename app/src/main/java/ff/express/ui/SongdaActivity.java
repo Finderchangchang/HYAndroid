@@ -51,6 +51,7 @@ import java.util.Random;
 import ff.express.R;
 import ff.express.base.BaseActivity;
 import ff.express.base.Key;
+import ff.express.config.LQRPhotoSelectUtils;
 import ff.express.listener.ClosethisActivity;
 import ff.express.method.OkHttpUtil;
 import ff.express.method.Utils;
@@ -88,9 +89,11 @@ public class SongdaActivity extends BaseActivity implements View.OnClickListener
     private final int TATE_PHOTO = 1;
     boolean Photo = false;
     Bitmap bm;
+
     @Override
     public void initViews() {
         setContentView(R.layout.songda);
+
         pictor_iv_sda = (ImageView) findViewById(R.id.pictor_iv_sda);
         danhaotv_sda = (EditText) findViewById(R.id.danhaotv_sda);
         scannertv_sda = (TextView) findViewById(R.id.scannertv_sda);
@@ -108,13 +111,29 @@ public class SongdaActivity extends BaseActivity implements View.OnClickListener
         qianshoutv_sda.setOnClickListener(this);
         scannertv_sda.setOnClickListener(this);
         backtv.setOnClickListener(this);
+        mLqrPhotoSelectUtils = new LQRPhotoSelectUtils(this, (outputFile, outputUri) -> {
+            bitmap = BitmapFactory.decodeFile(outputFile.getAbsolutePath(), getBitmapOption(2)); //将图片的长和宽缩小味原来的1/2
+            paizhaotv_sda.setText("重拍");
+            pictor_iv_sda.setImageBitmap(bitmap);
+            pickname = getNonceStr();
+        }, false);
+    }
+
+
+    private BitmapFactory.Options getBitmapOption(int inSampleSize) {
+        System.gc();
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPurgeable = true;
+        options.inSampleSize = inSampleSize;
+        return options;
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.paizhaotv_sda:
-                paizhao();
+                mLqrPhotoSelectUtils.takePhoto();
+//                paizhao();
                 break;
             case R.id.qianshoutv_sda:
                 sendPhoto();
@@ -139,16 +158,13 @@ public class SongdaActivity extends BaseActivity implements View.OnClickListener
         startActivityForResult(intent, 0);                            //当前扫描完条码或二维码后,会回调当前类的onActivityResult方法,
     }
 
-    //检验拍照权限
-    public void takePhoto() {
-        if (ContextCompat.checkSelfPermission(SongdaActivity.this,
-                Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
+    LQRPhotoSelectUtils mLqrPhotoSelectUtils;
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                ActivityCompat.requestPermissions(SongdaActivity.this, new String[]{Manifest.permission.CAMERA},1);
-            }}
+    private void paizhao1() {
+
+        mLqrPhotoSelectUtils.takePhoto();
     }
+
     /**
      * 拍照
      */
@@ -170,7 +186,7 @@ public class SongdaActivity extends BaseActivity implements View.OnClickListener
       /*      imageUri = Uri.fromFile(outputImage);
             Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
             intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);*/
-          //  takePhoto();
+            //  takePhoto();
             topictor();
             //startActivityForResult(intent, TATE_PHOTO);
         } catch (IOException e) {
@@ -192,6 +208,7 @@ public class SongdaActivity extends BaseActivity implements View.OnClickListener
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, TATE_PHOTO);
     }
+
     //发送照片
     private void sendPhoto() {
         if (Photo) {
@@ -207,17 +224,19 @@ public class SongdaActivity extends BaseActivity implements View.OnClickListener
         if (map == null) {
             map = new HashMap<String, String>();
             map.put("id", Utils.getCache("uid"));
-            if(Photo){
-            map.put("ext", "jpg");}else{
-                map.put("ext","");
+            if (Photo) {
+                map.put("ext", "jpg");
+            } else {
+                map.put("ext", "");
             }
 
             map.put("code", danhaotv_sda.getText().toString());
         }
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        if(bitmap!=null){
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);}
+        if (bitmap != null) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+        }
         Message m = new Message();
         Observable.create(subscriber -> {
             subscriber.onNext(communication01(url, map, baos.toByteArray()));
@@ -275,7 +294,7 @@ public class SongdaActivity extends BaseActivity implements View.OnClickListener
             public void onClick(DialogInterface dialog, int which) {
                 RequestBody requestBody = new FormBody.Builder()
                         .add("id", Utils.getCache("uid"))
-                        .add("ext","")
+                        .add("ext", "")
                         .add("code", danhaotv_sda.getText().toString()).build();
                 Request request = new Request.Builder()
                         .url(Key.BASE_URL + "sd.ashx")
@@ -390,20 +409,21 @@ public class SongdaActivity extends BaseActivity implements View.OnClickListener
         switch (requestCode) {
             case TATE_PHOTO://拍照获得照片
                 int x = 0;
-                if (resultCode == Activity.RESULT_OK) {
+                if (resultCode == Activity.RESULT_OK + 1) {
                     try {
                         bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
-                   long size= getBitmapsize(bitmap);
-                    Log.e("size:",size+"");
-                    if(size>658*3600){
+                    long size = getBitmapsize(bitmap);
+                    Log.e("size:", size + "");
+                    if (size > 658 * 3600) {
                   /*  compressImage compressImage = new compressImage();
                     bitmap = compressImage.getBitmapFromUrl(bitmap, bitmap.getWidth()/1.1, bitmap.getHeight()/1.1);
                     long size2=getBitmapsize(bitmap);
                     Log.e("size2:",size2+"");*/
-                   bitmap= dobitmap(bitmap);}
+                        bitmap = dobitmap(bitmap);
+                    }
 
                     paizhaotv_sda.setText("重拍");
                     pictor_iv_sda.setImageBitmap(bitmap);
@@ -419,16 +439,17 @@ public class SongdaActivity extends BaseActivity implements View.OnClickListener
             default:
                 break;
         }
+        mLqrPhotoSelectUtils.attachToActivityForResult(requestCode, resultCode, data);
     }
 
-    public  Bitmap dobitmap(Bitmap bitmap1){
-        if(getBitmapsize(bitmap1)>(3600*3600)){
+    public Bitmap dobitmap(Bitmap bitmap1) {
+        if (getBitmapsize(bitmap1) > (3600 * 3600)) {
             compressImage compressImage = new compressImage();
-            bitmap = compressImage.getBitmapFromUrl(bitmap, bitmap.getWidth()/1.2, bitmap.getHeight()/1.2);
-            Log.e("bitmap:",getBitmapsize(bitmap1)+"");
+            bitmap = compressImage.getBitmapFromUrl(bitmap, bitmap.getWidth() / 1.2, bitmap.getHeight() / 1.2);
+            Log.e("bitmap:", getBitmapsize(bitmap1) + "");
             dobitmap(bitmap);
 
-        }else{
+        } else {
             return bitmap;
         }
         //long size=getBitmapsize(bitmap);
@@ -437,8 +458,8 @@ public class SongdaActivity extends BaseActivity implements View.OnClickListener
     }
 
 
-     //bitmap大小
-    public long getBitmapsize(Bitmap mbitmap){
+    //bitmap大小
+    public long getBitmapsize(Bitmap mbitmap) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
             return mbitmap.getByteCount();
         }
@@ -502,5 +523,24 @@ public class SongdaActivity extends BaseActivity implements View.OnClickListener
         });
 
 
+    }
+
+    //检验拍照权限
+    public void takePhoto() {
+        if (ContextCompat.checkSelfPermission(SongdaActivity.this,
+                Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                ActivityCompat.requestPermissions(SongdaActivity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+        } else if (ContextCompat.checkSelfPermission(SongdaActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                ActivityCompat.requestPermissions(SongdaActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+        }
     }
 }
