@@ -112,7 +112,24 @@ public class SongdaActivity extends BaseActivity implements View.OnClickListener
         scannertv_sda.setOnClickListener(this);
         backtv.setOnClickListener(this);
         mLqrPhotoSelectUtils = new LQRPhotoSelectUtils(this, (outputFile, outputUri) -> {
+//            bitmap = BitmapFactory.decodeFile(outputFile.getAbsolutePath(), getBitmapOption(2)); //将图片的长和宽缩小味原来的1/2
+//            paizhaotv_sda.setText("重拍");
+//            pictor_iv_sda.setImageBitmap(bitmap);
+//            pickname = getNonceStr();
+
+
             bitmap = BitmapFactory.decodeFile(outputFile.getAbsolutePath(), getBitmapOption(2)); //将图片的长和宽缩小味原来的1/2
+
+            long size = getBitmapsize(bitmap);
+            Log.e("size:", size + "");
+            if (size > 658 * 3600) {
+                  /*  compressImage compressImage = new compressImage();
+                    bitmap = compressImage.getBitmapFromUrl(bitmap, bitmap.getWidth()/1.1, bitmap.getHeight()/1.1);
+                    long size2=getBitmapsize(bitmap);
+                    Log.e("size2:",size2+"");*/
+                bitmap = dobitmap(bitmap);
+            }
+
             paizhaotv_sda.setText("重拍");
             pictor_iv_sda.setImageBitmap(bitmap);
             pickname = getNonceStr();
@@ -227,7 +244,7 @@ public class SongdaActivity extends BaseActivity implements View.OnClickListener
             if (Photo) {
                 map.put("ext", "jpg");
             } else {
-                map.put("ext", "");
+                map.put("ext", "jpg");
             }
 
             map.put("code", danhaotv_sda.getText().toString());
@@ -237,6 +254,7 @@ public class SongdaActivity extends BaseActivity implements View.OnClickListener
         if (bitmap != null) {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
         }
+
         Message m = new Message();
         Observable.create(subscriber -> {
             subscriber.onNext(communication01(url, map, baos.toByteArray()));
@@ -342,9 +360,6 @@ public class SongdaActivity extends BaseActivity implements View.OnClickListener
         }
     };
 
-    /**
-     * 最原始传照片方法
-     */
     public String communication01(String urlString, Map<String, String> map, byte[] bytt) {
         String result = "";
 
@@ -392,14 +407,12 @@ public class SongdaActivity extends BaseActivity implements View.OnClickListener
                 InputStreamReader isr = new InputStreamReader(is, "utf-8");
                 BufferedReader br = new BufferedReader(isr);
                 result = br.readLine();
-                String s = "";
-//                listener.action(260, result, Tag);
             } catch (Exception e) {
                 result = "{\"ret\":\"898\"}";
-//                listener.action(258, result, Tag);
             }
         }
         return result;
+
     }
 
 
