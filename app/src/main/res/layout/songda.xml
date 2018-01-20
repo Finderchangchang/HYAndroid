@@ -61,6 +61,7 @@
                 android:layout_centerVertical="true"
                 android:background="#00000000"
                 android:hint="请扫描"
+                android:singleLine="true"
                 android:textColor="#000"
                 android:textSize="18dp" />
 

@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -114,7 +115,33 @@ public class Qujian2activity extends BaseActivity implements View.OnClickListene
         });*/
         adapter = new DanhaoAdapter(this, list);
         danhaolist.setAdapter(adapter);
+        danhaotv.setOnKeyListener(new View.OnKeyListener() {
 
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                //这里注意要作判断处理，ActionDown、ActionUp都会回调到这里，不作处理的话就会调用两次
+                if (KeyEvent.KEYCODE_ENTER == keyCode && KeyEvent.ACTION_DOWN == event.getAction()) {
+                    check(danhaotv.getText().toString().trim());
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    void check(String input) {
+        boolean equ = false;
+        for (int i = 0; i < list.size(); i++) {
+            if (input.equals(list.get(i))) {
+                equ = true;
+                break;
+            }
+        }
+        if (!equ) {//没有相同的数
+            list.add(input);
+        }
+        adapter.notifyDataSetChanged();
+        danhaotv.setText("");
     }
 
     @Override
@@ -243,7 +270,7 @@ public class Qujian2activity extends BaseActivity implements View.OnClickListene
     private void scanning() {
 
         Intent intent = new Intent(this, CaptureActivity.class);//CaptureActivity是扫描的Activity类
-        intent.putExtra("is_one",false);
+        intent.putExtra("is_one", false);
         startActivityForResult(intent, 0);                            //当前扫描完条码或二维码后,会回调当前类的onActivityResult方法,
         takePhoto();
     }
@@ -256,12 +283,9 @@ public class Qujian2activity extends BaseActivity implements View.OnClickListene
             String scanResult = bundle.getString("result");            //这就获取了扫描的内容了
             if (!TextUtils.isEmpty(scanResult)) {
                 for (int i = 0; i < scanResult.split(";").length; i++) {
-                    list.add(scanResult.split(";")[i]);
+                    check(scanResult.split(";")[i]);
                 }
             }
-            adapter.notifyDataSetChanged();
-            //danhaotv.setText(scanResult);
-
         }
     }
 

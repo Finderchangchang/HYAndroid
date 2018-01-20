@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -92,6 +93,33 @@ public class ZhongzhuanActivity extends BaseActivity implements View.OnClickList
         });*///这里是以前写的点击删除当前item不知道现在还有没有用  没用就删了
         adapter = new DanhaoAdapter(this, list);
         danhaolist.setAdapter(adapter);
+        danhaotv.setOnKeyListener(new View.OnKeyListener() {
+
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                //这里注意要作判断处理，ActionDown、ActionUp都会回调到这里，不作处理的话就会调用两次
+                if (KeyEvent.KEYCODE_ENTER == keyCode && KeyEvent.ACTION_DOWN == event.getAction()) {
+                    check(danhaotv.getText().toString().trim());
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    void check(String input) {
+        boolean equ = false;
+        for (int i = 0; i < list.size(); i++) {
+            if (input.equals(list.get(i))) {
+                equ = true;
+                break;
+            }
+        }
+        if (!equ) {//没有相同的数
+            list.add(input);
+        }
+        adapter.notifyDataSetChanged();
+        danhaotv.setText("");
     }
 
     @Override
@@ -222,10 +250,9 @@ public class ZhongzhuanActivity extends BaseActivity implements View.OnClickList
 
             if (!TextUtils.isEmpty(scanResult)) {
                 for (int i = 0; i < scanResult.split(";").length; i++) {
-                    list.add(scanResult.split(";")[i]);
+                    check(scanResult.split(";")[i]);
                 }
             }
-            adapter.notifyDataSetChanged();
             //danhaotv.setText(scanResult);
 
         }

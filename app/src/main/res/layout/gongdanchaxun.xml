@@ -61,6 +61,7 @@
                 android:layout_marginLeft="90dp"
                 android:gravity="center_vertical"
                 android:hint="请扫描"
+                android:singleLine="true"
                 android:textColor="#000"
                 android:textSize="18dp" />
 

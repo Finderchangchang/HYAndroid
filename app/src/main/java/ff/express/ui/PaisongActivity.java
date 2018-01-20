@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -52,8 +53,8 @@ public class PaisongActivity extends BaseActivity implements View.OnClickListene
     DanhaoAdapter adapter;
     static List<String> list;
     String danhaostr = "";
-    TextView backtv,addinlist_tv_ps;
-    boolean b=false;
+    TextView backtv, addinlist_tv_ps;
+    boolean b = false;
     Handler h = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -91,7 +92,7 @@ public class PaisongActivity extends BaseActivity implements View.OnClickListene
         confirmtv = (TextView) findViewById(R.id.confirm_tv_qja);
         danhaolist = (ListView) findViewById(R.id.lv_psa);
         backtv = (TextView) findViewById(R.id.backtv);
-        addinlist_tv_ps= (TextView) findViewById(R.id.addinlist_tv_ps);
+        addinlist_tv_ps = (TextView) findViewById(R.id.addinlist_tv_ps);
         list = new ArrayList<>();
       /*  danhaolist.setOnItemClickListener((parent, view, position, id) -> {
             list.remove(position);
@@ -99,7 +100,33 @@ public class PaisongActivity extends BaseActivity implements View.OnClickListene
         });*/
         adapter = new DanhaoAdapter(this, list);
         danhaolist.setAdapter(adapter);
+        danhaotv.setOnKeyListener(new View.OnKeyListener() {
 
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                //这里注意要作判断处理，ActionDown、ActionUp都会回调到这里，不作处理的话就会调用两次
+                if (KeyEvent.KEYCODE_ENTER == keyCode && KeyEvent.ACTION_DOWN == event.getAction()) {
+                    check(danhaotv.getText().toString().trim());
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    void check(String input) {
+        boolean equ = false;
+        for (int i = 0; i < list.size(); i++) {
+            if (input.equals(list.get(i))) {
+                equ = true;
+                break;
+            }
+        }
+        if (!equ) {//没有相同的数
+            list.add(input);
+        }
+        adapter.notifyDataSetChanged();
+        danhaotv.setText("");
     }
 
     @Override
@@ -128,7 +155,7 @@ public class PaisongActivity extends BaseActivity implements View.OnClickListene
                 adapter.notifyDataSetChanged();
                 danhaotv.setText("");
                 //将输入法隐藏，mPasswordEditText 代表密码输入框
-                InputMethodManager imm =(InputMethodManager)getSystemService(
+                InputMethodManager imm = (InputMethodManager) getSystemService(
                         Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(addinlist_tv_ps.getWindowToken(), 0);
 
@@ -160,15 +187,15 @@ public class PaisongActivity extends BaseActivity implements View.OnClickListene
                 //设置给强哥发送的所有单号，的的str
                 for (int i = 0; i < list.size(); i++) {
                     if (i != list.size() - 1) {
-                        danhaostr += list.get(i)+",";
+                        danhaostr += list.get(i) + ",";
                     } else {
                         danhaostr += list.get(i);
                     }
                 }
-                if(list.size()<1){
-                    danhaostr=danhaotv.getText().toString().trim();
+                if (list.size() < 1) {
+                    danhaostr = danhaotv.getText().toString().trim();
                 }
-                if(danhaostr.equals("")) {
+                if (danhaostr.equals("")) {
                     ToastShort("请添加单号");
                     return;
                 }
@@ -200,8 +227,9 @@ public class PaisongActivity extends BaseActivity implements View.OnClickListene
                 != PackageManager.PERMISSION_GRANTED) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                ActivityCompat.requestPermissions(PaisongActivity.this, new String[]{Manifest.permission.CAMERA},1);
-            }}
+                ActivityCompat.requestPermissions(PaisongActivity.this, new String[]{Manifest.permission.CAMERA}, 1);
+            }
+        }
     }
 
     /**
@@ -210,7 +238,7 @@ public class PaisongActivity extends BaseActivity implements View.OnClickListene
     private void scanning() {
 
         Intent intent = new Intent(this, CaptureActivity.class);        //CaptureActivity是扫描的Activity类
-        intent.putExtra("is_one",false);
+        intent.putExtra("is_one", false);
         startActivityForResult(intent, 0);                            //当前扫描完条码或二维码后,会回调当前类的onActivityResult方法,
         takePhoto();
     }
@@ -221,13 +249,11 @@ public class PaisongActivity extends BaseActivity implements View.OnClickListene
         if (resultCode == RESULT_OK) {    //判断回调
             Bundle bundle = data.getExtras();
             String scanResult = bundle.getString("result");            //这就获取了扫描的内容了
-
             if (!TextUtils.isEmpty(scanResult)) {
                 for (int i = 0; i < scanResult.split(";").length; i++) {
-                    list.add(scanResult.split(";")[i]);
+                    check(scanResult.split(";")[i]);
                 }
             }
-            adapter.notifyDataSetChanged();
             //danhaotv.setText(scanResult);
 
         }
