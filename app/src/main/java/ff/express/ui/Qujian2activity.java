@@ -214,6 +214,7 @@ public class Qujian2activity extends BaseActivity implements View.OnClickListene
         dialog.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                danhaostr="";
                 //设置给强哥发送的所有单号，的的str
                 for (int i = 0; i < list.size(); i++) {
                     if (i != list.size() - 1) {

@@ -187,6 +187,7 @@ public class ZhongzhuanActivity extends BaseActivity implements View.OnClickList
         dialog.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                danhaostr = "";
                 if (list.size() < 1) {
                     danhaostr = danhaotv.getText().toString().trim();
                 }

@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="中转"
+                android:text="运输"
                 android:textColor="#fff"
                 android:textSize="20dp" />
             <TextView

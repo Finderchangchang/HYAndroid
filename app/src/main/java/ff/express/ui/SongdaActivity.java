@@ -310,6 +310,7 @@ public class SongdaActivity extends BaseActivity implements View.OnClickListener
         dialog.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 RequestBody requestBody = new FormBody.Builder()
                         .add("id", Utils.getCache("uid"))
                         .add("ext", "")

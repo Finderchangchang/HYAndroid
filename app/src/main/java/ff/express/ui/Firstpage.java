@@ -122,9 +122,9 @@ public class Firstpage extends BaseActivity implements View.OnClickListener, Clo
                 JSONObject datab1 = dataarray.optJSONObject(0);
                 qj_tv_fa.setText("取件数量:" + datab1.getString("countNum"));
                 JSONObject datab2 = dataarray.optJSONObject(1);
-                zz_tv_fa.setText("中转数量:" + datab2.getString("countNum"));
+                zz_tv_fa.setText("运输数量:" + datab2.getString("countNum"));
                 JSONObject datab3 = dataarray.optJSONObject(2);
-                pj_tv_fa.setText("派送数量:" + datab3.getString("countNum"));
+                pj_tv_fa.setText("库存数量:" + datab3.getString("countNum"));
                 if (result.equals("1")) {
 
                 } else {

@@ -47,7 +47,7 @@
     <TextView
         android:id="@+id/zz"
         android:layout_weight="1"
-        android:text="中转"
+        android:text="运输"
         android:textSize="20dp"
         android:textColor="#ffffff"
         android:background="@mipmap/btn3"
@@ -60,7 +60,7 @@
     <TextView
         android:id="@+id/psz"
         android:layout_weight="1"
-        android:text="派送中"
+        android:text="库存"
         android:textSize="20dp"
         android:textColor="#ffffff"
         android:background="@mipmap/btn3"
