@@ -301,27 +301,19 @@ public class SongdaActivity extends BaseActivity implements View.OnClickListener
         dialog.setTitle("提示");
         dialog.setMessage("确认提交吗？");
         dialog.setIcon(R.mipmap.message);
-        dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() { //设置取消按钮
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        dialog.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                RequestBody requestBody = new FormBody.Builder()
-                        .add("id", Utils.getCache("uid"))
-                        .add("ext", "")
-                        .add("code", danhaotv_sda.getText().toString()).build();
-                Request request = new Request.Builder()
-                        .url(Key.BASE_URL + "sd.ashx")
-                        .post(requestBody)
-                        .build();
-                OkHttpUtil okHttpUtil = new OkHttpUtil(SongdaActivity.this);
-                okHttpUtil.enqueue(request, h, SongdaActivity.this);
-            }
+        //设置取消按钮
+        dialog.setNegativeButton("取消", (dialog1, which) -> dialog1.dismiss());
+        dialog.setPositiveButton("确认", (dialog12, which) -> {
+            RequestBody requestBody = new FormBody.Builder()
+                    .add("id", Utils.getCache("uid"))
+                    .add("ext", "")
+                    .add("code", danhaotv_sda.getText().toString()).build();
+            Request request = new Request.Builder()
+                    .url(Key.BASE_URL + "sd.ashx")
+                    .post(requestBody)
+                    .build();
+            OkHttpUtil okHttpUtil = new OkHttpUtil(SongdaActivity.this);
+            okHttpUtil.enqueue(request, h, SongdaActivity.this);
         });
         dialog.create().show();
 
